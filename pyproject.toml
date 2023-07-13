@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "fastapi-social-networking-application"
+version = "0.1.0"
+description = ""
+authors = ["Daniil <danokp@mail.ru>"]
+readme = "README.md"
+packages = [{include = "fastapi_social_networking_application"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+fastapi = {extras = ["all"], version = "^0.100.0"}
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
