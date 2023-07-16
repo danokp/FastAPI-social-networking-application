@@ -14,7 +14,7 @@ class User(SQLAlchemyBaseUserTable[int], Base):
     metadata = MetaData()
 
     id = Column(Integer, primary_key=True)
-    username = Column(String, nullable=False)
+    nick_name = Column(String, nullable=True)
     first_name = Column(String, nullable=False)
     last_name = Column(String, nullable=False)
     registered_at = Column(TIMESTAMP, default=datetime.utcnow)
@@ -37,6 +37,9 @@ class Post(Base):
         backref='reacted_posts',
     )
 
+    def as_dict(self):
+        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
+
 
 REACTIONS = [
     ('like', 'Like'),
@@ -46,6 +49,7 @@ REACTIONS = [
 user_post = Table(
     'user_post',
     Base.metadata,
+    Column('id', Integer, primary_key=True),
     Column('user_id', Integer, ForeignKey(User.id)),
     Column('post_id', Integer, ForeignKey(Post.id)),
     Column('reaction', ChoiceType(REACTIONS), nullable=True),
