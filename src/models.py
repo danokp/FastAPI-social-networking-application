@@ -11,6 +11,7 @@ from src.database import Base
 
 class User(SQLAlchemyBaseUserTable[int], Base):
     '''User model'''
+
     metadata = MetaData()
 
     id = Column(Integer, primary_key=True)
@@ -22,6 +23,7 @@ class User(SQLAlchemyBaseUserTable[int], Base):
 
 class Post(Base):
     '''Post model'''
+
     __tablename__ = "post"
 
     metadata = MetaData()
@@ -31,14 +33,6 @@ class Post(Base):
     description = Column(String, nullable=True)
     creator = Column(Integer, ForeignKey(User.id))
     created_at = Column(TIMESTAMP, default=datetime.utcnow)
-    reactions = relationship(
-        'User',
-        secondary='user_post',
-        backref='reacted_posts',
-    )
-
-    def as_dict(self):
-        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
 
 
 REACTIONS = [
